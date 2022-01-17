@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jeremy Brown <jeremy@brownjava.org>",
+  "license": "BSD",
   "dependencies": {
     "discord.js": "^13.1.0"
   }
