@@ -16,6 +16,14 @@ const sendMessage = async (userId, message) => {
     await channel.send(`<@${userId}> ${message}`);
 }
 
+const ignoreActivity = (activity) => {
+    ignored = config["ignore_activities"];
+    if (ignored && ignored.includes(activity)) {
+        return true;
+    }
+    return false;
+}
+
 let discord = new Discord.Client({intents: intents});
 discord.on('ready', () => {
     console.log('logged in!');
@@ -27,10 +35,14 @@ discord.on('ready', () => {
         startedActivities = newActivities.filter(activity => !oldActivities.includes(activity))
 
         for (activity of stoppedActivities) {
-            await sendMessage(newPresence.userId, `stopped playing ${activity}`)
+            if (!ignoreActivity(activity)) {
+                await sendMessage(newPresence.userId, `stopped playing ${activity}`)
+            }
         }
         for (activity of startedActivities) {
-            await sendMessage(newPresence.userId, `started playing ${activity}`)
+            if (!ignoreActivity(activity)) {
+                await sendMessage(newPresence.userId, `started playing ${activity}`)
+            }
         }
     });
 });
